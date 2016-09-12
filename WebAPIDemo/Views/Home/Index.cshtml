@@ -1,0 +1,120 @@
+﻿<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.7/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
+
+@*<script src="~/Scripts/vue-resource.js"></script>
+<script src="~/Scripts/vue.js"></script>*@
+
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <h1>Vue.js demo</h1>
+        <div id="app">
+            <table class="table table-hover" v-cloak>
+                <thead>
+                    <tr>
+                        <th class="text-center">姓名</th>
+                        <th class="text-center">学号</th>
+                        <th class="text-center">班级</th>
+                        <th class="text-center">电话</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="student in students ">
+                        <td class="text-center">{{student.Name}}</td>
+                        <td class="text-center">{{student.StuID}}</td>
+                        <td class="text-center">{{student.Class}}</td>
+                        <td class="text-center">{{student.Phone}}</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-danger" v-on:click="deleteStudent(student)">删除</button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <legend>添加学生信息：{{ stu.Name }}</legend>
+            <div v-show="stu.ID" class="form-group">
+                <label>ID</label>
+                <input type="text" v-model="stu.ID" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label for="">姓名</label>
+                <input type="text" class="form-control" v-model="stu.Name">
+            </div>
+            <div class="form-group">
+                <label for="">学号</label>
+                <input type="text" class="form-control" v-model="stu.StuID">
+            </div>
+            <div class="form-group">
+                <label for="">班级</label>
+                <input type="text" class="form-control" v-model="stu.Class">
+            </div>
+            <div class="form-group">
+                <label for="">电话</label>
+                <input type="text" class="form-control" v-model="stu.Phone">
+            </div>
+            <button class="btn btn-primary btn-block" v-on:click="createStudent(student)">添加</button>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    Vue.http.options.emulateJSON = true;
+    var demo = new Vue({
+        el: '#app',
+        data: {            
+            //student: {
+            //    ID: 0,
+            //    Name: '',
+            //    StuID: '',
+            //    Class: '',
+            //    Phone: ''
+            //},
+            //students: '',
+
+            student: [{
+                name: 'ID',
+                isKey: true
+            }, {
+                name: 'Name'
+            }, {
+                name: 'StuID'
+            }, {
+                name: 'Class'
+            }, {
+                name: 'Phone'
+            }],
+            students: [],
+
+            apiUrl: 'http://localhost:7874/api/students',
+            stu: {}
+        },
+        ready: function() {
+            this.getStudents()
+        },
+        methods: {            
+            getStudents: function () {
+                this.$http.get(this.apiUrl, function (data) {
+                    this.$set('students', data);
+                })
+            },
+            createStudent: function() {
+                var vm = this
+                vm.$http.post(vm.apiUrl, vm.stu)
+                    .then(function(response) {
+                        vm.$set('stu', {})
+                        vm.getStudents()
+               })
+            },
+            deleteStudent: function(student){
+                var vm = this
+                vm.$http.delete(this.apiUrl + '/' + student.ID)
+                    .then(function(response)  {
+                        vm.getStudents()
+                    })
+            }
+        }
+    })
+</script>
