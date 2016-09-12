@@ -9,7 +9,7 @@
 
 本项目系列教程：
 1.ASP.NET Web API 入门实战(1)--开篇（ http://beiyue.ren/2016/09/10/aspnet-webapi-1/ ）
-2.ASP.NET Web API 入门实战(2)--处理数据（ ://beiyue.ren/2016/09/10/aspnet-webapi-2/ ）
+2.ASP.NET Web API 入门实战(2)--处理数据（ http://beiyue.ren/2016/09/10/aspnet-webapi-2/ ）
 3.ASP.NET Web API 入门实战(3)--Vue.js创建单页应用（ http://beiyue.ren/2016/09/11/aspnet-webapi-3/ ）
 
 如对本实例demo有疑问，请联系：dl_hym@163.com
